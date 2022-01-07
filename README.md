@@ -22,7 +22,7 @@ The project will include:
 Project framework and data:
 
 - Transformer (Huggingface) framework with pretrained network for summarization.
-- BERT / BART as pretrained model to be included frozen with additional layers to be fine tuned on the data below.
+- T5 to be utilised as the pretrained model
 - Abstract + title dataset, https://www.kaggle.com/spsayakpaul/arxiv-paper-abstracts?select=arxiv_data.csv
 
 Project Organization
