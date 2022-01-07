@@ -3,6 +3,10 @@ import click
 import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
+import torch
+import pandas as pd
+import numpy as np
+from omegaconf import OmegaConf
 
 
 @click.command()
@@ -15,6 +19,32 @@ def main(input_filepath, output_filepath):
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
 
+    # get configuration
+    config = OmegaConf.load('src/data/config.yaml')
+    data_name = config.data_name
+    n_data    = config.n_data
+    n_train   = int(n_data * config.r_train)
+    n_val     = int(n_data * config.r_val)
+
+    # get indices for data split
+    # into train set, validation set, and test set
+    index = np.arange(config.n_data)
+    np.random.shuffle(index)
+    train_index = index[:n_train]
+    val_index   = index[n_train:n_train + n_val]
+    test_index  = index[n_train + n_val:]
+
+    # get data and split
+    data = pd.read_csv(f'{input_filepath}/{data_name}')
+    data = data.to_numpy()
+    train_data = data[train_index]
+    val_data   = data[val_index]
+    test_data  = data[test_index]
+
+    # store data
+    torch.save(train_data, f'{output_filepath}/train_data.pt')
+    torch.save(val_data, f'{output_filepath}/val_data.pt')
+    torch.save(test_data, f'{output_filepath}/test_data.pt')
 
 if __name__ == '__main__':
     log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'

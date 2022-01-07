@@ -1,0 +1,7 @@
+#config.yaml
+data_name: arxiv_data_2.csv
+n_data:  56181
+r_train: 0.8
+r_val:   0.1
+title_column: 1
+abstract_column: 2
