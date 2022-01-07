@@ -10,8 +10,19 @@ Apply MLOPS tools to NLP project:
 
 The project will include:
 
+- conda env
+- Cookiecutter
+- pep8
+- DVC gdrive
+- Docker
+- wandb
+- snakeviz/pytorch profiling
+- pytorch lightning
+
+Project framework and data:
+
 - Transformer (Huggingface) framework with pretrained network for summarization.
-- Use Cookiecutter and pep8
+- Abstract + title dataset, https://www.kaggle.com/spsayakpaul/arxiv-paper-abstracts?select=arxiv_data.csv
 
 Project Organization
 ------------
