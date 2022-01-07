@@ -6,7 +6,8 @@ Title prediction from abstract
 ## Project description
 
 ### Goal
-Apply MLOPS tools to NLP project:
+
+Apply MLOPS tools to NLP project.
 
 The project will include:
 
