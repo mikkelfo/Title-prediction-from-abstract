@@ -1,13 +1,12 @@
-Title prediction from abstract
+Title to be determined by model
 ==============================
-
-# Title to be determined by model
 
 ## Project description
 
 ### Goal
 
-Apply MLOPS tools to NLP project.
+The goal of the project is to generate titles from abstracts.
+This can be useful when writing research papers as it can be hard to come up with one.
 
 The project will include:
 
