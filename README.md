@@ -1,7 +1,17 @@
 Title prediction from abstract
 ==============================
 
-A short description of the project.
+# Title to be determined by model
+
+## Project description
+
+### Goal
+Apply MLOPS tools to NLP project:
+
+The project will include:
+
+- Transformer (Huggingface) framework with pretrained network for summarization.
+- Use Cookiecutter and pep8
 
 Project Organization
 ------------
