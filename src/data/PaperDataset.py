@@ -20,3 +20,37 @@ class PaperDataset(Dataset):
 
     def __len__(self):
         return self.n_samples
+
+def Arxiv(data_filepath, batch_size = 64):
+        train_dataset = PaperDataset(data_filepath, "train")
+        test_dataset = PaperDataset(data_filepath, "test")
+        val_dataset = PaperDataset(data_filepath, "val")
+
+        train_loader = DataLoader(dataset=train_dataset,
+                            batch_size=batch_size,
+                            shuffle=True,
+                            num_workers=0)
+
+        test_loader = DataLoader(dataset=test_dataset,
+                            batch_size=batch_size,
+                            shuffle=True,
+                            num_workers=0)
+
+        val_loader = DataLoader(dataset=val_dataset,
+                            batch_size=batch_size,
+                            shuffle=True,
+                            num_workers=0)
+
+        return(train_loader, test_loader, val_loader)
+
+if __name__ == '__main__':
+    # Just temporary while it is local
+    data_filepath = "data/processed"
+    batch_size = 1
+
+    trainloader, testloader, valloader = Arxiv(data_filepath, batch_size)
+
+    abstracts, titles = next(iter(trainloader))
+
+    print(abstracts)
+    print(titles)
