@@ -43,17 +43,14 @@ def Arxiv(data_filepath, batch_size = 64):
 
         return(train_loader, test_loader, val_loader)
 
-# Just temporary while it is local
-data_filepath = "data/processed"
-batch_size = 1
+if __name__ == '__main__':
+    # Just temporary while it is local
+    data_filepath = "data/processed"
+    batch_size = 1
 
-trainloader, testloader, valloader = Arxiv(data_filepath, batch_size)
+    trainloader, testloader, valloader = Arxiv(data_filepath, batch_size)
 
-abstracts, titles = next(iter(trainloader))
+    abstracts, titles = next(iter(trainloader))
 
-print(abstracts)
-print(titles)
-
-# We want to move this to the cloud
-
-# Not sure if this really worked out
+    print(abstracts)
+    print(titles)
