@@ -1,56 +1,25 @@
-import torch
-from torch.utils.data import Dataset, DataLoader
-from omegaconf import OmegaConf
+import numpy as np
+from torch.utils.data import Dataset
 
 class PaperDataset(Dataset):
-    def __init__(self, data_filepath, which = 'train'):
-        # get configuration
-        config = OmegaConf.load('src/data/config.yaml')
+    def __init__(self, subset, tokenizer):
+        # Convert to numpy array for tokenizer
+        data = np.array(subset)
 
-        # get dataset
-        data = torch.load(f'{data_filepath}/{which}_data.pt')
-        self.n_samples = data.shape[0]
+        # Seperate titles and abstracts
+        titles, abstracts = data.T
 
-        # get titles and abstracts
-        self.titles = data[:, config.title_column]
-        self.abstracts = data[:, config.abstract_column]
+        # Tokenize
+        tokenized_abstracts = tokenizer.batch_encode_plus(abstracts, padding=True, truncation=True, return_tensors="pt")
+        tokenized_titles = tokenizer.batch_encode_plus(titles, padding=True, truncation=True, return_tensors="pt")
+
+        # Prepare for T5 input
+        self.input_ids = tokenized_abstracts.input_ids
+        self.attention_mask = tokenized_abstracts.attention_mask
+        self.labels = tokenized_titles.input_ids
 
     def __getitem__(self, index):
-        return self.abstracts[index], self.titles[index]
+        return self.input_ids[index], self.attention_mask[index], self.labels[index]
 
     def __len__(self):
-        return self.n_samples
-
-def Arxiv(data_filepath, batch_size = 64):
-        train_dataset = PaperDataset(data_filepath, "train")
-        test_dataset = PaperDataset(data_filepath, "test")
-        val_dataset = PaperDataset(data_filepath, "val")
-
-        train_loader = DataLoader(dataset=train_dataset,
-                            batch_size=batch_size,
-                            shuffle=True,
-                            num_workers=0)
-
-        test_loader = DataLoader(dataset=test_dataset,
-                            batch_size=batch_size,
-                            shuffle=True,
-                            num_workers=0)
-
-        val_loader = DataLoader(dataset=val_dataset,
-                            batch_size=batch_size,
-                            shuffle=True,
-                            num_workers=0)
-
-        return(train_loader, test_loader, val_loader)
-
-if __name__ == '__main__':
-    # Just temporary while it is local
-    data_filepath = "data/processed"
-    batch_size = 1
-
-    trainloader, testloader, valloader = Arxiv(data_filepath, batch_size)
-
-    abstracts, titles = next(iter(trainloader))
-
-    print(abstracts)
-    print(titles)
+        return len(self.data)

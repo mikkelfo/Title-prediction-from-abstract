@@ -20,7 +20,8 @@ class PredNet(nn.Module):
     def forward(self, input_ids, attention_mask=None, decoder_input_ids=None, decoder_attention_mask=None, labels=None):
         x = self.t5(        
             input_ids=input_ids,
-            labels=labels
+            attention_mask=attention_mask,
+            labels=labels,
         )
         return x
 

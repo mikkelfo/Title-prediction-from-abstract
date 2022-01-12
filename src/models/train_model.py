@@ -19,9 +19,9 @@ def train(epoch, model, optimizer, dataloader):
         optimizer.zero_grad()
 
         batch = [r.to(device) for r in batch]
-        input_ids, labels = batch
+        labels, attention_mask, input_ids = batch
 
-        loss = model(input_ids=input_ids, labels=labels).loss
+        loss = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels).loss
         
         # T5 uses CrossEntropyLoss internally
         total_loss += loss
@@ -32,26 +32,13 @@ def train(epoch, model, optimizer, dataloader):
 
     print(f'Epoch: {epoch:3}     Loss: {total_loss:3.2f}')
 
-class CustomDataset(torch.utils.data.Dataset):
-    def __init__(self, csv_path, tokenizer):
-        self.df = pd.read_csv(csv_path)[:100]
-        self.titles = tokenizer.batch_encode_plus(self.df['titles'].tolist(), return_tensors="pt", padding=True, truncation=True).input_ids
-        self.abstracts = tokenizer.batch_encode_plus(self.df['summaries'].tolist(), return_tensors="pt", padding=True, truncation=True).input_ids
-
-    def __len__(self):
-        return len(self.df)
-    def __getitem__(self, index):
-        title, abstract = self.titles[index], self.abstracts[index]
-        return title, abstract
-
-
 
 if __name__ == '__main__':
-    model = PredNet()
+    model = PredNet().cuda()
     tokenizer = T5Tokenizer.from_pretrained('t5-base')
     optimizer = torch.optim.AdamW(model.parameters(), lr=.001, weight_decay=.001)
 
-    dataset = CustomDataset('data/raw/arxiv_data.csv', tokenizer)
+    dataset = torch.load('data/processed/train_set.pt')
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=5)
 
 
