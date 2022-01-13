@@ -1,37 +1,25 @@
 import numpy as np
+from torch import load
 from torch import Tensor, FloatTensor, LongTensor
 from torch.utils.data import Dataset
-from torch.utils.data.dataset import Subset
-from typing import TypeVar, Tuple
-from transformers import T5Tokenizer
-
-T = TypeVar('T')  # from source code to torch.utils.data.dataset
-
+from typing import Tuple
+from omegaconf import OmegaConf
 
 class PaperDataset(Dataset):
-    def __init__(self, subset: Subset[T], tokenizer: T5Tokenizer) -> None:
+    def __init__(self, subset: str) -> None:
         # Convert to numpy array for tokenizer
-        data = np.array(subset)
-        # Seperate titles and abstracts
-        titles, abstracts = data.T
+        self.subset = subset
 
-        # Tokenize
-        tokenized_abstracts = tokenizer.batch_encode_plus(
-            abstracts, padding=True, truncation=True, return_tensors="pt"
-        )
-        tokenized_titles = tokenizer.batch_encode_plus(
-            titles, padding=True, truncation=True, return_tensors="pt"
-        )
+        # get configuration
+        config = OmegaConf.load("src/data/config.yaml")
 
-        # Prepare for T5 input
-        self.input_ids = tokenized_abstracts.input_ids
-        self.attention_mask = tokenized_abstracts.attention_mask
-        self.labels = tokenized_titles.input_ids
+        self.n = config[f"n_{subset}"]
 
     def __getitem__(
         self, index: int
     ) -> Tuple[Tensor, FloatTensor, LongTensor]:
-        return self.input_ids[index], self.attention_mask[index], self.labels[index]
+        data_line = load(f"data/processed/{self.subset}-{index}.pt")
+        return data_line['input_id'], data_line['attention_mask'], data_line['label']
 
     def __len__(self) -> int:
-        return len(self.input_ids)
+        return self.n

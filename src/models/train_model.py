@@ -4,6 +4,8 @@ import torch
 from torch.optim import Optimizer, AdamW
 from torch.utils.data import DataLoader
 
+from src.data.PaperDataset import PaperDataset
+
 
 def train(
     epoch: int, model: PredNet, optimizer: Optimizer, dataloader: DataLoader
@@ -46,7 +48,7 @@ if __name__ == "__main__":
     tokenizer = T5Tokenizer.from_pretrained("t5-base")
     optimizer = AdamW(model.parameters(), lr=0.001, weight_decay=0.001)
 
-    dataset = torch.load("data/processed/train_set.pt")
+    dataset = PaperDataset('train')
     dataloader = DataLoader(dataset, batch_size=5)
 
     train(0, model, optimizer, dataloader)
