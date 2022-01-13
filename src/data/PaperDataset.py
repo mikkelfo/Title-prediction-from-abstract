@@ -23,3 +23,30 @@ class PaperDataset(Dataset):
 
     def __len__(self):
         return len(self.input_ids)
+
+
+import pytorch_lightning as pl
+import torch
+from torch.utils.data import DataLoader
+
+class ArvixDataModule(pl.LightningDataModule):
+    def __init__(self):
+        super().__init__()
+
+    def setup(self, stage: list[str] = None):
+        
+        if stage == "fit" or stage is None:
+            self.train_set = torch.load('data/processed/train_set.py')
+            self.val_set = torch.load('data/processed/val_set.pt')
+
+        if stage == "test":
+            self.test_set = torch.load('data/processed/test_set.pt')
+
+    def train_dataloader(self):
+        return DataLoader(self.train_set, batch_size=32)
+
+    def val_dataloader(self):
+        return DataLoader(self.val_set, batch_size=32)
+
+    def test_dataloader(self):
+        return DataLoader(self.tesst_set, batch_size=32)

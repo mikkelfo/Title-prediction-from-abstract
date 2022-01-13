@@ -15,6 +15,7 @@ transformers
 sentencepiece
 pandas
 omegaConf
+pytorch_lightning
 
 # Storage
 dvc
