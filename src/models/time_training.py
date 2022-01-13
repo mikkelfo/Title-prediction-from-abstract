@@ -19,15 +19,14 @@ if __name__ == '__main__':
     optimizer = AdamW(model.parameters(), lr=0.001, weight_decay=0.001)
 
     dataset = PaperDataset('train')
-    dataloader = DataLoader(dataset, batch_size=512)
+    dataloader = DataLoader(dataset, batch_size=5)
     res = [ ]
     for _ in range(5):
         start = time.time()
-        train(0)
+        train(0, model, optimizer, dataloader)
         end = time.time()
 
         res.append(end - start)
         
     res = np.array(res)
     print(f'Timing: {np.mean(res)}+-{np.std(res)}')
-    train(0)
