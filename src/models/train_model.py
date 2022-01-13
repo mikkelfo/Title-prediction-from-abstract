@@ -39,7 +39,10 @@ def train(
 
 
 if __name__ == "__main__":
-    model = PredNet().cuda()
+    if torch.cuda.is_available():
+        model = PredNet().cuda()
+    else:
+        model = PredNet()
     tokenizer = T5Tokenizer.from_pretrained("t5-base")
     optimizer = AdamW(model.parameters(), lr=0.001, weight_decay=0.001)
 

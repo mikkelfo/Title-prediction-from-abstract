@@ -33,7 +33,7 @@ def make_dataset(
     # Read csv file into pandas (only specified columns)
     data = pd.read_csv(
         f"{input_filepath}/{config.data_name}",
-        usecols=[config.title_column, config.abstract_column],
+        usecols=[config.title_column, config.abstract_column]
     )
     data = data.to_numpy()
 
