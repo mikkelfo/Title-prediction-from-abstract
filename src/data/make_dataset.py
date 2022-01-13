@@ -10,10 +10,13 @@ from src.data.PaperDataset import PaperDataset
 
 @click.command()
 @click.argument(
-    "input_filepath", required = False, type = click.Path(), default = "data/raw"
+    "input_filepath", required=False, type=click.Path(), default="data/raw"
 )
 @click.argument(
-    "output_filepath", required = False, type = click.Path(), default = "data/processed"
+    "output_filepath",
+    required=False,
+    type=click.Path(),
+    default="data/processed"
 )
 def make_dataset(
     input_filepath: str, output_filepath: str, tokenizer: T5Tokenizer = None
@@ -30,7 +33,7 @@ def make_dataset(
     # Read csv file into pandas (only specified columns)
     data = pd.read_csv(
         f"{input_filepath}/{config.data_name}",
-        usecols = [config.title_column, config.abstract_column],
+        usecols=[config.title_column, config.abstract_column],
     )
     data = data.to_numpy()
 
@@ -38,7 +41,7 @@ def make_dataset(
     train, val, test = random_split(
         data,
         [config.n_train, config.n_val, config.n_test],
-        generator = torch.Generator().manual_seed(1337),
+        generator=torch.Generator().manual_seed(1337),
     )
     train_set = PaperDataset(train, tokenizer)
     val_set = PaperDataset(val, tokenizer)

@@ -3,7 +3,6 @@ from transformers import T5Tokenizer
 import torch
 from torch.optim import Optimizer, AdamW
 from torch.utils.data import DataLoader
-import sys
 
 
 def train(
@@ -42,9 +41,9 @@ def train(
 if __name__ == "__main__":
     model = PredNet().cuda()
     tokenizer = T5Tokenizer.from_pretrained("t5-base")
-    optimizer = AdamW(model.parameters(), lr = 0.001, weight_decay = 0.001)
+    optimizer = AdamW(model.parameters(), lr=0.001, weight_decay=0.001)
 
     dataset = torch.load("data/processed/train_set.pt")
-    dataloader = DataLoader(dataset, batch_size = 5)
+    dataloader = DataLoader(dataset, batch_size=5)
 
     train(0, model, optimizer, dataloader)

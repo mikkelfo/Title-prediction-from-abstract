@@ -26,13 +26,14 @@ class PredNet(nn.Module):
         labels: LongTensor = None,
     ) -> tuple[FloatTensor]:
         x = self.t5(
-            input_ids = input_ids,
-            attention_mask = attention_mask,
-            labels = labels,
+            input_ids=input_ids,
+            attention_mask=attention_mask,
+            labels=labels,
         )
         return x
-    # TODO: add output type
+
     def generate(self, input_ids: Tensor):
+        # TODO: add output type
         return self.t5.generate(input_ids)
 
 
