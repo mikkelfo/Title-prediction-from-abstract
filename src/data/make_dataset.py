@@ -1,8 +1,5 @@
 
 import click
-import logging
-from pathlib import Path
-#from dotenv import find_dotenv, load_dotenv
 import torch
 import pandas as pd
 from omegaconf import OmegaConf
@@ -20,9 +17,6 @@ def make_dataset(input_filepath='data/raw', output_filepath='data/processed', to
     """
     if tokenizer is None:
         tokenizer = T5Tokenizer.from_pretrained('t5-base')
-
-    logger = logging.getLogger(__name__)
-    logger.info('making final data set from raw data')
 
     # get configuration
     config = OmegaConf.load('src/data/config.yaml')
@@ -43,14 +37,4 @@ def make_dataset(input_filepath='data/raw', output_filepath='data/processed', to
     torch.save(test_set, f'{output_filepath}/test_set.pt')
 
 if __name__ == '__main__':
-    log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(level=logging.INFO, format=log_fmt)
-
-    # not used in this stub but often useful for finding various files
-    project_dir = Path(__file__).resolve().parents[2]
-
-    # find .env automagically by walking up directories until it's found, then
-    # load up the .env entries as environment variables
-    # load_dotenv(find_dotenv())
-
     make_dataset()
