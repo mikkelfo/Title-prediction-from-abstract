@@ -9,9 +9,9 @@ from transformers import T5Tokenizer
 from src.data.PaperDataset import PaperDataset
 
 @click.command()
-@click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
 def make_dataset(input_filepath='data/raw', output_filepath='data/processed', tokenizer=None):
+@click.argument('input_filepath', required=False, type=click.Path(), default='data/raw')
+@click.argument('output_filepath', required=False, type=click.Path(), default='data/processed')
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
