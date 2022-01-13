@@ -1,9 +1,10 @@
-import numpy as np
-from torch import load
-from torch import Tensor, FloatTensor, LongTensor
-from torch.utils.data import Dataset
 from typing import Tuple
+
+import numpy as np
 from omegaconf import OmegaConf
+from torch import FloatTensor, LongTensor, Tensor, load
+from torch.utils.data import Dataset
+
 
 class PaperDataset(Dataset):
     def __init__(self, subset: str) -> None:

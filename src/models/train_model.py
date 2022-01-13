@@ -1,8 +1,8 @@
-from model import PredNet
-from transformers import T5Tokenizer
 import torch
-from torch.optim import Optimizer, AdamW
+from model import PredNet
+from torch.optim import AdamW, Optimizer
 from torch.utils.data import DataLoader
+from transformers import T5Tokenizer
 
 from src.data.PaperDataset import PaperDataset
 

@@ -1,7 +1,6 @@
-from torch import Tensor, FloatTensor, LongTensor, BoolTensor
 import torch.nn as nn
-from transformers import T5ForConditionalGeneration
-from transformers import T5Tokenizer
+from torch import BoolTensor, FloatTensor, LongTensor, Tensor
+from transformers import T5ForConditionalGeneration, T5Tokenizer
 
 
 class PredNet(nn.Module):

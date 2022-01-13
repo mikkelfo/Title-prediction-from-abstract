@@ -1,8 +1,9 @@
 import argparse
 import time
+
 import numpy as np
-from torch.utils.data import DataLoader
 from PaperDataset import PaperDataset
+from torch.utils.data import DataLoader
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
