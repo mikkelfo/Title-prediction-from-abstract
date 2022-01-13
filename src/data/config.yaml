@@ -4,5 +4,5 @@ n_data:  56181
 n_train: 41181
 n_val: 10000
 n_test: 5000
-title_column: 1
-abstract_column: 2
+title_column: 'titles'
+abstract_column: 'abstracts'
