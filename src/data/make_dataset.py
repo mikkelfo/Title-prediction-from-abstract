@@ -1,4 +1,3 @@
-
 import click
 import torch
 import pandas as pd
@@ -9,9 +8,9 @@ from transformers import T5Tokenizer
 from src.data.PaperDataset import PaperDataset
 
 @click.command()
-@click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
-def make_dataset(input_filepath='data/raw', output_filepath='data/processed', tokenizer=None):
+@click.argument('input_filepath', type=click.Path(), default='data/raw')
+@click.argument('output_filepath', type=click.Path(), default='data/processed')
+def make_dataset(input_filepath, output_filepath, tokenizer=None):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """

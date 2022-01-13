@@ -34,7 +34,10 @@ def train(epoch, model, optimizer, dataloader):
 
 
 if __name__ == '__main__':
-    model = PredNet().cuda()
+    if torch.cuda.is_available():
+        model = PredNet().cuda()
+    else:
+        model = PredNet()
     tokenizer = T5Tokenizer.from_pretrained('t5-base')
     optimizer = torch.optim.AdamW(model.parameters(), lr=.001, weight_decay=.001)
 

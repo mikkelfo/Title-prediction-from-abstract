@@ -13,3 +13,5 @@ python-dotenv>=0.5.1
 torchvision
 transformers
 sentencepiece
+pandas
+omegaConf
