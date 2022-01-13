@@ -19,3 +19,6 @@ omegaConf
 # Storage
 dvc
 dvc[gdrive]
+
+# Testing
+pytest

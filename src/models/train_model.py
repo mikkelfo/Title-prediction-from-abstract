@@ -4,8 +4,14 @@ import torch
 from src.data.PaperDataset import PaperDataset
 
 
-
 def train(epoch, model, optimizer, dataloader):
+    '''
+        model: t5
+        dataloader: returns (input_id, attention_mask, labels)
+            input_id: the tokenized abstracts
+            attention_mask: 1 for original data, 0 for additional padding
+            labels: the tokenized titles (acts as the "true" value)
+    '''
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model.train()
 

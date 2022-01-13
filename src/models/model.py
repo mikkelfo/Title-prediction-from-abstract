@@ -3,9 +3,10 @@ from transformers import T5ForConditionalGeneration
 from transformers import T5Tokenizer
 
 
-
-
 class PredNet(nn.Module):
+    ''' 
+    Custom class which implements t5 with an option to freeze parameters
+    '''
     def __init__(self) -> None:
         super(PredNet, self).__init__()
 
@@ -22,7 +23,7 @@ class PredNet(nn.Module):
             input_ids=input_ids,
             attention_mask=attention_mask,
             labels=labels,
-        )
+        )   # t5 automatically generates decoder_input_ids and decoder_attention_mask from labels
         return x
 
     def generate(self, input_ids):
