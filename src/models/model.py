@@ -24,7 +24,7 @@ class PredNet(nn.Module):
         decoder_input_ids: LongTensor = None,
         decoder_attention_mask: BoolTensor = None,
         labels: LongTensor = None,
-    ) -> tuple(FloatTensor):
+    ) -> tuple[FloatTensor]:
         x = self.t5(
             input_ids = input_ids,
             attention_mask = attention_mask,
