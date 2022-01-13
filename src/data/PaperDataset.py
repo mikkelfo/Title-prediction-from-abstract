@@ -12,7 +12,6 @@ class PaperDataset(Dataset):
     def __init__(self, subset: Subset[T], tokenizer: T5Tokenizer) -> None:
         # Convert to numpy array for tokenizer
         data = np.array(subset)
-
         # Seperate titles and abstracts
         titles, abstracts = data.T
 
@@ -32,8 +31,7 @@ class PaperDataset(Dataset):
     def __getitem__(
         self, index: int
     ) -> Tuple[Tensor, FloatTensor, LongTensor]:
-        return self.input_ids[index], self.attention_mask[index], \
-            self.labels[index]
+        return self.input_ids[index], self.attention_mask[index], self.labels[index]
 
     def __len__(self) -> int:
-        return len(self.data)
+        return len(self.input_ids)
