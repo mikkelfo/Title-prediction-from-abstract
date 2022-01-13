@@ -6,7 +6,6 @@ click
 Sphinx
 coverage
 awscli
-flake8
 python-dotenv>=0.5.1
 
 # Project specific
@@ -15,7 +14,3 @@ transformers
 sentencepiece
 pandas
 omegaConf
-
-# Storage
-dvc
-dvc[gdrive]
