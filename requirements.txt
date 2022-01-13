@@ -15,3 +15,7 @@ transformers
 sentencepiece
 pandas
 omegaConf
+
+# Storage
+dvc
+dvc[gdrive]
