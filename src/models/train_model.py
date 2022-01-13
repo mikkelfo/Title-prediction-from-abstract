@@ -1,7 +1,8 @@
 from model import PredNet
 from transformers import T5Tokenizer
 import torch
-import pandas as pd
+from src.data.PaperDataset import PaperDataset
+
 
 
 def train(epoch, model, optimizer, dataloader):
@@ -19,7 +20,7 @@ def train(epoch, model, optimizer, dataloader):
         optimizer.zero_grad()
 
         batch = [r.to(device) for r in batch]
-        labels, attention_mask, input_ids = batch
+        input_ids, attention_mask, labels = batch
 
         loss = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels).loss
         

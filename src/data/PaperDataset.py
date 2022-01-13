@@ -22,4 +22,4 @@ class PaperDataset(Dataset):
         return self.input_ids[index], self.attention_mask[index], self.labels[index]
 
     def __len__(self):
-        return len(self.data)
+        return len(self.input_ids)
