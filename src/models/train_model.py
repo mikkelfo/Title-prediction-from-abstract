@@ -1,15 +1,19 @@
 from model import PredNet
 from transformers import T5Tokenizer
 import torch
-import pandas as pd
+from torch.optim import Optimizer, AdamW
+from torch.utils.data import DataLoader
+import sys
 
 
-def train(epoch, model, optimizer, dataloader):
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+def train(
+    epoch: int, model: PredNet, optimizer: Optimizer, dataloader: DataLoader
+) -> None:
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.train()
 
     total_loss = 0
-    
+
     for step, batch in enumerate(dataloader):
         # progress update after every 50 batches.
         if step % 1 == 0 and not step == 0:
@@ -21,8 +25,10 @@ def train(epoch, model, optimizer, dataloader):
         batch = [r.to(device) for r in batch]
         labels, attention_mask, input_ids = batch
 
-        loss = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels).loss
-        
+        loss = model(
+            input_ids=input_ids, attention_mask=attention_mask, labels=labels
+        ).loss
+
         # T5 uses CrossEntropyLoss internally
         total_loss += loss
 
@@ -30,17 +36,15 @@ def train(epoch, model, optimizer, dataloader):
         loss.backward()
         optimizer.step()
 
-    print(f'Epoch: {epoch:3}     Loss: {total_loss:3.2f}')
+    print(f"Epoch: {epoch:3}     Loss: {total_loss:3.2f}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     model = PredNet().cuda()
-    tokenizer = T5Tokenizer.from_pretrained('t5-base')
-    optimizer = torch.optim.AdamW(model.parameters(), lr=.001, weight_decay=.001)
+    tokenizer = T5Tokenizer.from_pretrained("t5-base")
+    optimizer = AdamW(model.parameters(), lr = 0.001, weight_decay = 0.001)
 
-    dataset = torch.load('data/processed/train_set.pt')
-    dataloader = torch.utils.data.DataLoader(dataset, batch_size=5)
-
+    dataset = torch.load("data/processed/train_set.pt")
+    dataloader = DataLoader(dataset, batch_size = 5)
 
     train(0, model, optimizer, dataloader)
-
