@@ -2,7 +2,7 @@
 data_name: arxiv_data_2.csv
 n_data:  56181
 n_train: 41181
-n_test: 10000
-n_val: 5000
+n_val: 10000
+n_test: 5000
 title_column: 1
 abstract_column: 2
