@@ -11,14 +11,13 @@ from transformers import T5Tokenizer
 
 from src.data.PaperDataset import PaperDataset
 
-T = TypeVar('T')  # from source code to torch.utils.data.dataset
+T = TypeVar("T")  # from source code to torch.utils.data.dataset
+
 
 @click.command()
 @click.argument("input_filepath", type=click.Path(), default="data/raw")
 @click.argument("output_filepath", type=click.Path(), default="data/processed")
-def make_dataset(
-    input_filepath: str, output_filepath: str
-) -> None:
+def make_dataset(input_filepath: str, output_filepath: str) -> None:
     """Runs data processing scripts to turn raw data from (../raw) into
     cleaned data ready to be analyzed (saved in ../processed).
     """
@@ -30,7 +29,7 @@ def make_dataset(
     # Read csv file into pandas (only specified columns)
     data = pd.read_csv(
         f"{input_filepath}/{config.data_name}",
-        usecols=[config.title_column, config.abstract_column]
+        usecols=[config.title_column, config.abstract_column],
     )
     data = data.to_numpy()
 
@@ -46,6 +45,7 @@ def make_dataset(
     store_data(val, f"{output_filepath}/val", tokenizer)
     store_data(test, f"{output_filepath}/test", tokenizer)
 
+
 def store_data(
     data_set: Subset[T], output_filepath: str, tokenizer: T5Tokenizer
 ) -> None:
@@ -56,12 +56,12 @@ def store_data(
 
     # Tokenize
     tokenized_abstracts = tokenizer.batch_encode_plus(
-            abstracts, padding=True, truncation=True, return_tensors="pt"
+        abstracts, padding=True, truncation=True, return_tensors="pt"
     )
     tokenized_titles = tokenizer.batch_encode_plus(
         titles, padding=True, truncation=True, return_tensors="pt"
     )
-    
+
     # Prepare for T5 input
     input_ids = tokenized_abstracts.input_ids
     attention_mask = tokenized_abstracts.attention_mask
@@ -69,11 +69,14 @@ def store_data(
 
     for i in range(len(data_set)):
         torch.save(
-            {'input_id': input_ids[i].clone(), 
-             'attention_mask': attention_mask[i].clone(), 
-             'label': labels[i].clone()}, 
-            f"{output_filepath}/{i}.pt"
+            {
+                "input_id": input_ids[i].clone(),
+                "attention_mask": attention_mask[i].clone(),
+                "label": labels[i].clone(),
+            },
+            f"{output_filepath}/{i}.pt",
         )
+
 
 if __name__ == "__main__":
     make_dataset()

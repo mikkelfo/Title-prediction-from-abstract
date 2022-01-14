@@ -1,12 +1,15 @@
+from typing import Tuple
+
 import torch.nn as nn
 from torch import BoolTensor, FloatTensor, LongTensor, Tensor
 from transformers import T5ForConditionalGeneration, T5Tokenizer
 
 
 class PredNet(nn.Module):
-    ''' 
+    """
     Custom class which implements t5 with an option to freeze parameters
-    '''
+    """
+
     def __init__(self) -> None:
         super(PredNet, self).__init__()
 
@@ -26,12 +29,12 @@ class PredNet(nn.Module):
         decoder_input_ids: LongTensor = None,
         decoder_attention_mask: BoolTensor = None,
         labels: LongTensor = None,
-    ) -> tuple[FloatTensor]:
+    ) -> Tuple[FloatTensor]:
         x = self.t5(
             input_ids=input_ids,
             attention_mask=attention_mask,
             labels=labels,
-        )   # t5 automatically generates decoder_input_ids and decoder_attention_mask from labels
+        )  # t5 automatically generates decoder_input_ids and decoder_attention_mask from labels
         return x
 
     def generate(self, input_ids: Tensor):
