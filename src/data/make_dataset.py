@@ -9,8 +9,6 @@ from torch.utils.data import random_split
 from torch.utils.data.dataset import Subset
 from transformers import T5Tokenizer
 
-from src.data.PaperDataset import PaperDataset
-
 T = TypeVar("T")  # from source code to torch.utils.data.dataset
 
 

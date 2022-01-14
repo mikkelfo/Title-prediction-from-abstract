@@ -1,6 +1,5 @@
 from typing import Tuple
 
-import numpy as np
 from omegaconf import OmegaConf
 from torch import FloatTensor, LongTensor, Tensor, load
 from torch.utils.data import Dataset

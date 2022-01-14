@@ -3,7 +3,7 @@ import time
 import numpy as np
 import torch
 from model import PredNet
-from torch.optim import AdamW, Optimizer
+from torch.optim import AdamW
 from torch.utils.data import DataLoader
 from train_model import train
 from transformers import T5Tokenizer
