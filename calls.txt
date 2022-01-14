@@ -1,0 +1,23 @@
+## GCLOUD ##
+
+# We build the docker (put in correct image name)
+docker build -f gcp_train.dockerfile . -t title-generation:latest
+
+# Build our GCP docker locally first:
+docker ps -a
+docker rm 
+
+# Docker run without arguments for the first gcp docker image
+docker run --name train_model title-generation:latest  
+
+# Push the docker to GCP
+docker tag title-generation gcr.io/title-generation/title-generation
+docker push gcr.io/title-generation/title-generation
+
+# We try with a run by submitting the image we have pushed to GCP
+gcloud ai-platform jobs submit training title-generation-test --region europe-west4 --master-image-uri <copy-docker-path>
+
+# We monitor the run by (also shows the args the run is being run with):
+gcloud ai-platform jobs describe title-generation-test
+
+# Right now we are also copying data into the container which is not good practice this should also be loaded from the bucket

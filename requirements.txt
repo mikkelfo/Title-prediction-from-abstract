@@ -15,3 +15,9 @@ pandas
 omegaConf
 pytorch_lightning
 wandb
+
+# Cloud specific
+google
+google-cloud
+google-cloud-storage
+google-api-python-client
