@@ -47,7 +47,7 @@ def make_dataset(
     store_data(test, f"{output_filepath}/test", tokenizer)
 
 def store_data(
-    data_set: Subset[T], output_filepath: str, tokenizer: T5Tokenizer = None
+    data_set: Subset[T], output_filepath: str, tokenizer: T5Tokenizer
 ) -> None:
 
     # Seperate titles and abstracts
