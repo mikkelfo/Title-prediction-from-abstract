@@ -12,7 +12,7 @@ class PaperDataset(Dataset):
         self.subset = subset
 
         # get configuration
-        config = OmegaConf.load("src/data/config.yaml")
+        config = dict(OmegaConf.load("src/data/config.yaml"))
 
         self.n = config[f"n_{subset}"]
 
