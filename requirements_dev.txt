@@ -1,0 +1,7 @@
+# Storage
+dvc
+dvc[gdrive]
+
+# Syntax
+flake8
+isort

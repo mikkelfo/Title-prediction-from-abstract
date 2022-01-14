@@ -3,9 +3,8 @@ from model import PredNet
 from torch.optim import AdamW, Optimizer
 from torch.utils.data import DataLoader
 from transformers import T5Tokenizer
-
+import torch
 from src.data.PaperDataset import PaperDataset
-
 
 def train(
     epoch: int, model: PredNet, optimizer: Optimizer, dataloader: DataLoader
