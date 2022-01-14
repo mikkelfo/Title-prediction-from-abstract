@@ -3,6 +3,8 @@ from omegaconf import OmegaConf
 import torch
 import random
 
+from src.data.PaperDataset import PaperDataset
+
 ''' 
     Requirements:
         make_dataset.py must be ran before these tests
@@ -18,6 +20,11 @@ config = OmegaConf.load('src/data/config.yaml')
 test_set = torch.load('data/processed/test_set.pt')
 train_set = torch.load('data/processed/train_set.pt')
 val_set = torch.load('data/processed/val_set.pt')
+
+# Test for type
+assert type(test_set) == PaperDataset
+assert type(train_set) == PaperDataset
+assert type(val_set) == PaperDataset
 
 # Test sizes of datasets
 assert len(test_set) == config.n_test

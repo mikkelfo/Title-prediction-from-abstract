@@ -13,5 +13,3 @@ assert len(data) == config.n_data, 'Dataset did not have correct number of sampl
 assert config.n_data == config.n_train + config.n_val + config.n_test, 'The sum of subset sizes does not match data size'
 assert config.title_column in data.columns, '"titles" is not a header in the dataset'
 assert config.abstract_column in data.columns, '"abstracts" is not a header in the dataset'
-
-print("Done with config")
