@@ -72,7 +72,7 @@ def store_data(
             {'input_id': input_ids[i].clone(), 
              'attention_mask': attention_mask[i].clone(), 
              'label': labels[i].clone()}, 
-            f"{output_filepath}-{i}.pt"
+            f"{output_filepath}/{i}.pt"
         )
 
 if __name__ == "__main__":

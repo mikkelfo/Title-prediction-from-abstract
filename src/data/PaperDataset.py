@@ -19,7 +19,7 @@ class PaperDataset(Dataset):
     def __getitem__(
         self, index: int
     ) -> Tuple[Tensor, FloatTensor, LongTensor]:
-        data_line = load(f"data/processed/{self.subset}-{index}.pt")
+        data_line = load(f"data/processed/{self.subset}/{index}.pt")
         return data_line['input_id'], data_line['attention_mask'], data_line['label']
 
     def __len__(self) -> int:
