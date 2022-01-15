@@ -1,17 +1,15 @@
-from typing import TypeVar
-
 import click
-import numpy as np
 import pandas as pd
 import torch
 from omegaconf import OmegaConf
 
+
 @click.command()
-@click.argument('input_filepath', type=click.Path(), default='data/raw')
-@click.argument('output_filepath', type=click.Path(), default='data/processed')
+@click.argument("input_filepath", type=click.Path(), default="data/raw")
+@click.argument("output_filepath", type=click.Path(), default="data/processed")
 def make_dataset(input_filepath: str, output_filepath: str) -> None:
-    """ 
-        Turns raw csv file into a numpy array with the two columns (title, abstract)
+    """
+    Turns raw csv file into a numpy array with the two columns (title, abstract)
     """
 
     # get configuration
@@ -23,7 +21,8 @@ def make_dataset(input_filepath: str, output_filepath: str) -> None:
         usecols=[config.title_column, config.abstract_column],
     )
     data = data.to_numpy()
-    torch.save(data, output_filepath + '/data.pt')
+    torch.save(data, output_filepath + "/data.pt")
+
 
 if __name__ == "__main__":
     make_dataset()

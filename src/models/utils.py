@@ -1,38 +1,42 @@
 import os
-from google.cloud import storage
 from datetime import datetime as dt
+
 import torch
+from google.cloud import storage
+
 
 def upload_blob(bucket_name, source_file_name, destination_blob_name):
-        """Uploads a file to the bucket."""
-        # The ID of your GCS bucket
-        # bucket_name = "your-bucket-name"
-        # The path to your file to upload
-        # source_file_name = "local/path/to/file"
-        # The ID of your GCS object
-        # destination_blob_name = "storage-object-name"
+    """Uploads a file to the bucket."""
+    # The ID of your GCS bucket
+    # bucket_name = "your-bucket-name"
+    # The path to your file to upload
+    # source_file_name = "local/path/to/file"
+    # The ID of your GCS object
+    # destination_blob_name = "storage-object-name"
 
-        # We set the environment variable such that we have google authentication it could also be done with google oauth i think
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "key.json"
+    # We set the environment variable such that we have google
+    # authentication it could also be done with google oauth i think
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "key.json"
 
-        storage_client = storage.Client()
-        bucket = storage_client.bucket(bucket_name)
-        blob = bucket.blob(destination_blob_name)
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
 
-        blob.upload_from_filename(source_file_name)
+    blob.upload_from_filename(source_file_name)
 
-        print(
-            "Bucket upload: File {} uploaded to {}.".format(
-                source_file_name, destination_blob_name
-            )
+    print(
+        "Bucket upload: File {} uploaded to {}.".format(
+            source_file_name, destination_blob_name
         )
+    )
 
-def save_model(model, BUCKET = "title-generation-bucket"):
+
+def save_model(model, BUCKET="title-generation-bucket"):
     # PARAMS
     RUN_TIME = dt.now().strftime("%m%d_%H%M_%S")
 
     # Save checkpoint
-    ckpt_path = f'models/T5_model_{RUN_TIME}.pth'
+    ckpt_path = f"models/T5_model_{RUN_TIME}.pth"
     checkpoint = model.state_dict()
     torch.save(checkpoint, ckpt_path)
 
@@ -43,6 +47,9 @@ def save_model(model, BUCKET = "title-generation-bucket"):
     if BUCKET is not None:
         bucket_name = BUCKET
         source_file_name = ckpt_path
-        destination_blob_name = f'title-generation/{ckpt_path}'
+        destination_blob_name = f"title-generation/{ckpt_path}"
         upload_blob(bucket_name, source_file_name, destination_blob_name)
-        print("Bucket upload: Model checkpoint was saved in GCP at:", f'{bucket_name}/{ckpt_path}')
+        print(
+            "Bucket upload: Model checkpoint was saved in GCP at:",
+            f"{bucket_name}/{ckpt_path}",
+        )
