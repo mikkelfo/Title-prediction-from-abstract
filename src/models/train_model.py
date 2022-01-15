@@ -1,8 +1,6 @@
 from model import PredNet
 from transformers import T5Tokenizer
 import torch
-from src.data.PaperDataset import PaperDataset
-
 
 def train(epoch, model, optimizer, dataloader):
     '''

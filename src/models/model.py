@@ -1,9 +1,12 @@
 import torch.nn as nn
 from transformers import T5ForConditionalGeneration
-from transformers import T5Tokenizer
+from pytorch_lightning import LightningModule
+import torch
+from torch import FloatTensor
+from typing import Any, List
 
 
-class PredNet(nn.Module):
+class PredNet(LightningModule):
     ''' 
     Custom class which implements t5 with an option to freeze parameters
     '''
@@ -13,9 +16,9 @@ class PredNet(nn.Module):
         # We download a pretrained bert model from https://huggingface.co/t5-base
         self.t5 = T5ForConditionalGeneration.from_pretrained('t5-base')
 
-        # We freeze the parameters in T5. Speeds up training and prevents updating model weights during fine-tuning
-        # for param in self.t5.parameters():
-        #     param.requires_grad = False
+        # We freeze the all layers in T5 (but the last called 'lm_head'). Speeds up training and prevents updating model weights during fine-tuning
+        for param in list(self.t5.parameters())[:-1]:
+            param.requires_grad = False
 
 
     def forward(self, input_ids, attention_mask=None, decoder_input_ids=None, decoder_attention_mask=None, labels=None):
@@ -26,20 +29,29 @@ class PredNet(nn.Module):
         )   # t5 automatically generates decoder_input_ids and decoder_attention_mask from labels
         return x
 
-    def generate(self, input_ids):
+    def training_step(self, batch: Any, batch_idx: int) -> FloatTensor:
+        input_ids, attention_mask, labels = batch
+        loss = self(input_ids=input_ids, attention_mask=attention_mask, labels=labels).loss
+        self.log('training_loss', loss, on_epoch=True)
+        return loss
+
+    def validation_step(self, batch, batch_idx: int) -> FloatTensor:
+        input_ids, attention_mask, labels = batch
+        loss = self(input_ids=input_ids, attention_mask=attention_mask, labels=labels).loss
+        self.log('training_loss', loss, on_epoch=True)
+        return loss
+
+    def test_step(self, batch, batch_idx: int) -> FloatTensor:
+        input_ids, attention_mask, labels = batch
+        loss = self(input_ids=input_ids, attention_mask=attention_mask, labels=labels).loss
+        self.log('training_loss', loss, on_epoch=True)
+        return loss
+
+    def configure_optimizers(self) -> torch.optim.Optimizer:
+        return torch.optim.AdamW(self.parameters(), lr=.001, weight_decay=.001)
+
+    def generate(self, input_ids) -> List[int]:
         return self.t5.generate(input_ids)
 
 if __name__ == '__main__':
-    model = PredNet()
-
-    tokenizer = T5Tokenizer.from_pretrained('t5-base')
-    string = "This is a test string that should be summarized using abstractive summarization by the T5 model."
-    summ = "Test string summarized by T5 model abstractive summary"
-    input_ids = tokenizer.encode(string, return_tensors="pt")
-    labels = tokenizer.encode(summ, return_tensors="pt")
-
-    x = model(input_ids=input_ids, labels=labels)
-    print(x)
-    print(x.loss)
-    x.loss.backward()
-    
+    model = PredNet()    

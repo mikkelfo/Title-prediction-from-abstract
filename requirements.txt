@@ -16,6 +16,7 @@ sentencepiece
 pandas
 omegaConf
 pytorch_lightning
+wandb
 
 # Storage
 dvc
