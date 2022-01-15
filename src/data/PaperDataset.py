@@ -1,6 +1,5 @@
 from typing import Any
 
-import torch
 from torch.utils.data import Dataset
 from transformers import BatchEncoding
 
