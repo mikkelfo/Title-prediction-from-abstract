@@ -4,6 +4,7 @@ import torch
 from torch.utils.data import Dataset
 from transformers import BatchEncoding
 
+
 class PaperDataset(Dataset):
     def __init__(self, abstracts: BatchEncoding, titles: BatchEncoding):
         # Convert dictionary to T5 input format
