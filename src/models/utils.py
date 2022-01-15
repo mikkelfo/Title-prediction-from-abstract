@@ -2,8 +2,8 @@ import os
 from datetime import datetime as dt
 
 import torch
-from google.cloud import storage
-
+import google
+# from google import cloud
 
 def upload_blob(bucket_name, source_file_name, destination_blob_name):
     """Uploads a file to the bucket."""
@@ -18,7 +18,7 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
     # authentication it could also be done with google oauth i think
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "key.json"
 
-    storage_client = storage.Client()
+    storage_client = google.cloud.storage.Client()
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
 

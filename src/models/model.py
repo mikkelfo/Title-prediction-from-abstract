@@ -51,7 +51,7 @@ class PredNet(LightningModule):
         loss = self(
             input_ids=input_ids, attention_mask=attention_mask, labels=labels
         ).loss
-        self.log("training_loss", loss, on_epoch=True)
+        self.log("validation_loss", loss, on_epoch=True)
         return loss
 
     def test_step(self, batch: Any, batch_idx: int) -> FloatTensor:
@@ -59,7 +59,7 @@ class PredNet(LightningModule):
         loss = self(
             input_ids=input_ids, attention_mask=attention_mask, labels=labels
         ).loss
-        self.log("training_loss", loss, on_epoch=True)
+        self.log("test_loss", loss, on_epoch=True)
         return loss
 
     def configure_optimizers(self) -> torch.optim.Optimizer:
