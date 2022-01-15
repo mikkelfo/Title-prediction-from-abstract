@@ -13,3 +13,5 @@ transformers
 sentencepiece
 pandas
 omegaConf
+pytorch_lightning
+wandb
