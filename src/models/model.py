@@ -35,13 +35,13 @@ class PredNet(LightningModule):
         self.log('training_loss', loss, on_epoch=True)
         return loss
 
-    def validation_step(self, batch, batch_idx: int) -> FloatTensor:
+    def validation_step(self, batch: Any, batch_idx: int) -> FloatTensor:
         input_ids, attention_mask, labels = batch
         loss = self(input_ids=input_ids, attention_mask=attention_mask, labels=labels).loss
         self.log('training_loss', loss, on_epoch=True)
         return loss
 
-    def test_step(self, batch, batch_idx: int) -> FloatTensor:
+    def test_step(self, batch: Any, batch_idx: int) -> FloatTensor:
         input_ids, attention_mask, labels = batch
         loss = self(input_ids=input_ids, attention_mask=attention_mask, labels=labels).loss
         self.log('training_loss', loss, on_epoch=True)

@@ -3,11 +3,11 @@ from torch.utils.data import Dataset
 import torch
 
 class PaperDataset(Dataset):
-    def __init__(self, dict: Dict[str, torch.Tensor]):
+    def __init__(self, abstracts: torch.FloatTensor, titles: torch.FloatTensor):
         # Convert dictionary to T5 input format
-        self.input_ids = dict['abstracts'].input_ids
-        self.attention_mask =  dict['abstracts'].attention_mask
-        self.labels = dict['titles'].input_ids
+        self.input_ids = abstracts.input_ids
+        self.attention_mask =  abstracts.attention_mask
+        self.labels = titles.input_ids
 
     def __getitem__(self, index: int) -> Any:
         return self.input_ids[index], self.attention_mask[index], self.labels[index]

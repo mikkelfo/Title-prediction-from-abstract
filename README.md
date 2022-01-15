@@ -1,6 +1,11 @@
 Title to be determined by model
 ==============================
 
+# Notes
+Make_data doesnt tokenize (tokenized data is 510MB instead of 51MB)
+Tokenizing takes ~5 min
+Distributed dataloading is slower (csv files are fast) (16 seconds for 8 workers, 9 seconds for main)
+
 ## Project description
 
 ### Goal
