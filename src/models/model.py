@@ -2,7 +2,7 @@ from typing import Any, List, Tuple
 
 import torch
 from pytorch_lightning import LightningModule
-from torch import BoolTensor, FloatTensor, LongTensor
+from torch import FloatTensor, LongTensor
 from transformers import T5ForConditionalGeneration
 
 
