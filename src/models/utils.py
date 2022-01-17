@@ -5,6 +5,10 @@ import torch
 from google.cloud import storage
 
 
+def setup_folders(folder):
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
 def upload_blob(bucket_name, source_file_name, destination_blob_name):
     """Uploads a file to the bucket."""
     # The ID of your GCS bucket
@@ -34,6 +38,9 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
 def save_model(model, BUCKET="title-generation-bucket"):
     # PARAMS
     RUN_TIME = dt.now().strftime("%m%d_%H%M_%S")
+
+    # If we dont have a model folder we create one
+    setup_folders("models")
 
     # Save checkpoint
     ckpt_path = f"models/T5_model_{RUN_TIME}.pth"

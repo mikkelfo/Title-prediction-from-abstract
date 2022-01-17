@@ -47,4 +47,4 @@ WORKDIR /root
 RUN pip install -r requirements.txt --no-cache-dir
 
 # 
-ENTRYPOINT ["python", "-u", "src/models/train_model.py"]
+ENTRYPOINT ["python", "-u", "src/main.py"]

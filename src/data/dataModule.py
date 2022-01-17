@@ -18,6 +18,7 @@ class ArvixDataModule(pl.LightningDataModule):
         # Add tokenizing
         tokenizer = T5Tokenizer.from_pretrained("t5-base")
 
+        #titles, abstracts = torch.load("data/processed/data.pt")[:12].T
         titles, abstracts = torch.load("data/processed/data.pt").T
         tokenized_abstracts = tokenizer.batch_encode_plus(
             abstracts, padding=True, truncation=True, return_tensors="pt"
@@ -32,6 +33,8 @@ class ArvixDataModule(pl.LightningDataModule):
         train, val, test = random_split(
             self.data,
             [self.config.n_train, self.config.n_val, self.config.n_test],
+            #self.data, 
+            #[10,1,1],
             generator=torch.Generator().manual_seed(1337),
         )
 
