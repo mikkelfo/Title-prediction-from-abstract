@@ -11,11 +11,17 @@ docker rm
 docker run --name train_model title-generation:latest  
 
 # Push the docker to GCP
-docker tag title-generation gcr.io/title-generation/title-generation
-docker push gcr.io/title-generation/title-generation
+docker tag title-generation-all-data gcr.io/title-generation/title-generation-all-data
+docker push gcr.io/title-generation/title-generation-all-data
 
 # We try with a run by submitting the image we have pushed to GCP
 gcloud ai-platform jobs submit training title-generation-test --region europe-west4 --master-image-uri <copy-docker-path>
+
+# Set project
+gcloud config set project title-generation
+
+# Job title-generation-all-data
+gcloud ai-platform jobs submit training title_generation_test --region europe-west4 --master-image-uri gcr.io/title-generation/title-generation-all-data@sha256:b6e1ae924a4f9d87228f882e33dc63b760b3521c96603a4967ec14d65d260873
 
 # We monitor the run by (also shows the args the run is being run with):
 gcloud ai-platform jobs describe title-generation-test

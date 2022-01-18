@@ -1,6 +1,28 @@
-# Base image
-FROM python:3.7-slim
+# Dockerfile-gpu
+#FROM nvidia/cuda:9.0-cudnn7-runtime
+#FROM nvidia/cuda:11.5.1-cudnn8-runtime-ubuntu20.04
+FROM anibali/pytorch:1.8.1-cuda11.1-ubuntu20.04
 WORKDIR /root
+
+# Base image
+#FROM python:3.7-slim
+
+# Installs necessary dependencies.
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#          build-essential \
+#          gcc \
+#          curl \
+#          wget \
+#          python3.9 && \
+#      rm -rf /var/lib/apt/lists/*
+
+# Installs pip.
+# RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py && \
+#     python get-pip.py && \
+#     pip install setuptools && \
+#     rm get-pip.py
+
+USER root
 
 # install python 
 RUN apt update && \
