@@ -13,6 +13,6 @@ if __name__ == "__main__":
     wandb_logger = WandbLogger(project = "arxiv", entity = "title-generation")
     dm = ArvixDataModule()
     model = PredNet()
-    trainer = Trainer(max_epochs=1, logger=wandb_logger, accelerator = "auto")
+    trainer = Trainer(max_epochs=10, logger=wandb_logger, accelerator="gpu", gpus=1)
     trainer.fit(model, dm)
     save_model(model)
