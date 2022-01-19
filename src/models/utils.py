@@ -1,5 +1,6 @@
 import os
 from datetime import datetime as dt
+import time
 
 import torch
 from google.cloud import storage
@@ -51,12 +52,18 @@ def save_model(model, BUCKET="title-generation-bucket"):
     print("Model checkpoint was saved locally at:", ckpt_path)
 
     # save the model checkpoint to cloud
-    if BUCKET is not None:
-        bucket_name = BUCKET
-        source_file_name = ckpt_path
-        destination_blob_name = f"title-generation/{ckpt_path}"
-        upload_blob(bucket_name, source_file_name, destination_blob_name)
-        print(
-            "Bucket upload: Model checkpoint was saved in GCP at:",
-            f"{bucket_name}/{ckpt_path}",
-        )
+    for _ in range(10):
+        try:
+            if BUCKET is not None:
+                bucket_name = BUCKET
+                source_file_name = ckpt_path
+                destination_blob_name = f"title-generation/{ckpt_path}"
+                upload_blob(bucket_name, source_file_name, destination_blob_name)
+                print(
+                    "Bucket upload: Model checkpoint was saved in GCP at:",
+                    f"{bucket_name}/{ckpt_path}",
+                )
+            break
+        except Exception:
+            print('Failed bucket upload, trying again in 10s.')
+            time.sleep(10)
